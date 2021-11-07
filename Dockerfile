@@ -1,17 +1,14 @@
 FROM python:3.8-alpine
 
-RUN pip3 install pipenv
+WORKDIR /app
 
-ENV PROJECT_DIR /usr/src/flaskbookapi
 
-WORKDIR ${PROJECT_DIR}
+COPY requirements.txt requirements.txt
 
-COPY Pipfile .
-COPY Pipfile.lock .
+RUN pip3 install -r requirements.txt
+
 COPY . .
-
-RUN pipenv install --deploy --ignore-pipfile
 
 EXPOSE 5000
 
-CMD ["pipenv", "run", "python", "wsgi.py"]
+CMD ["python", "wsgi.py"]
